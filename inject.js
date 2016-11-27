@@ -1,41 +1,20 @@
-// // function getNewImages(callback){
-// //     var images = document.getElementsByTagName("img");
-// //     console.log(images);
-// //     var newimages = [];
-// //     for(var  i = 0; i < images.length; i++){
-// //         checkIfElemInArray(allSourcesEver, images[i], function(exists){
-// //             if(!exists) newimages.push(images[i]);
-// //             else console.log("exists already");
-// //         })
-// //     }
-// //     callback(newimages);
-// // }
-//
-//
-// // function filterSources(images, callback){
-// //     var data = {};
-// //     var data_length = 0;
-// //     for(var i = 0; i < images.length; i++){
-// //         if(images[i].width > 100 && images[i].src != null && images[i].src != ""){
-// //             data[data_length] = {"image": images[i], "source": images[i].src};
-// //             data_length += 1;
-// //         }
-// //     }
-// //     callback(data, data_length);
-// //
-// // }
-//
-//
+var chosen_images = [];
 function collectImgSources(callback){
     var images = document.getElementsByTagName("img");
     var sources = [];
+    chosen_images = [];
     // var newimages = [];
     for(var  i = 0; i < images.length; i++){
         if(images[i].width > 100 && images[i].src != null && images[i].src != ""){
             sources.push(images[i].src);
+            chosen_images.push(images[i]);
+        }
+
+        if(i == images.length - 1){
+            callback(sources);
         }
     }
-    callback(sources);
+
 }
 
 function doTheSwap(callback){
@@ -45,8 +24,6 @@ function doTheSwap(callback){
         callback(sources.length)
     });
 }
-//
-
 
 chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
@@ -58,7 +35,14 @@ chrome.extension.onMessage.addListener(
         }
 
         if(request.header === "newsrc"){
-            console.log(request, sender, sendResponse);
+            // console.log(request, sender, sendResponse);
+            console.log("got new sources");
+            console.log("chosen_images length" + chosen_images.length);
+            console.log("new source length" + request.sources.length);
+            for(var  i = 0; i < chosen_images.length; i++){
+                chosen_images[i].src = request.sources[i];
+            }
+
         }
     }
 );
