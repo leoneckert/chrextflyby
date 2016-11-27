@@ -3,6 +3,8 @@ var todo = {};
 
 function initTodo(tabs, callback){
     console.log("-----initTodo-----");
+    todo = {};
+    pool = [];
     for(var i = 0; i < tabs.length; i++){
         if(tabs[i].url.substring(0,4) === "http"){
             todo[tabs[i].id] = {gotSources: false, numSources: 0, info: tabs[i], sentSources: false};
@@ -109,8 +111,7 @@ chrome.extension.onMessage.addListener(
                             sendOutNewSources();
                             chrome.runtime.sendMessage({header: "scriptFinished"});
                         });
-
-                    }, 2000);
+                    }, 1000);
                 }
             });
         }

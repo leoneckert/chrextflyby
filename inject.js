@@ -14,6 +14,9 @@ function collectImgSources(callback){
             callback(sources);
         }
     }
+    if(images.length === 0){
+        callback(sources);
+    }
 
 }
 
