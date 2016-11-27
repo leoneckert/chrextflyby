@@ -51,18 +51,6 @@ function saveData(message, sender, callback){
     }
 }
 
-function checkIfReadyToSend(callback){
-    var tabIDs = Object.keys(todo);
-    for(var i = 0; i < tabIDs.length; i ++){
-        if(!todo[tabIDs[i]].gotSources){
-            callback(false);
-        }
-        if(i === tabIDs.length-1){
-            callback(true);
-        }
-    }
-
-}
 
 function shuffle(a) {
     var j, x, i;
@@ -74,24 +62,7 @@ function shuffle(a) {
     }
 }
 
-function sendOutNewSources(){
-    shuffle(pool);
-    var tabIDs = Object.keys(todo);
-    for(var i = 0; i < tabIDs.length; i ++){
-        if(!tabIDs[i].sentSources){
-            console.log("sending");
-            console.log(todo[tabIDs[i]].info.id);
-            tabIDs[i].sentSources = true;
-            var toSend = [];
-            for (var j = 0; j < todo[tabIDs[i]].numSources; j ++){
-                toSend.push( pool.pop() );
-            }
-            chrome.tabs.sendMessage(todo[tabIDs[i]].info.id, {header: "newsrc", sources: toSend });
-        }
 
-    }
-
-}
 
 var done = false;
 chrome.extension.onMessage.addListener(
@@ -109,15 +80,7 @@ chrome.extension.onMessage.addListener(
             // console.log("got sources");
             // console.log(message, sender, sendResponse);
             saveData(message, sender, function(saved){
-                if(saved){
-                    console.log("got to check if all id answered");
-                    checkIfReadyToSend(function(ready){
-                        if(ready === true && !done){
-                            done = true;
-                            sendOutNewSources();
-                        }
-                    });
-                }
+
 
             })
 
