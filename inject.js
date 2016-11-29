@@ -3,13 +3,11 @@ function collectImgSources(callback){
     var images = document.getElementsByTagName("img");
     var sources = [];
     chosen_images = [];
-    // var newimages = [];
     for(var  i = 0; i < images.length; i++){
         if(images[i].width > 100 && images[i].src != null && images[i].src != ""){
             sources.push(images[i].src);
             chosen_images.push(images[i]);
         }
-
         if(i == images.length - 1){
             callback(sources);
         }
@@ -17,7 +15,6 @@ function collectImgSources(callback){
     if(images.length === 0){
         callback(sources);
     }
-
 }
 
 function doTheSwap(callback){

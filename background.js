@@ -9,7 +9,6 @@ function initTodo(tabs, callback){
         if(tabs[i].url.substring(0,4) === "http"){
             todo[tabs[i].id] = {gotSources: false, numSources: 0, info: tabs[i], sentSources: false};
         }
-
     }
     console.log("todo");
     console.log(todo);
