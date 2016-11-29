@@ -27,7 +27,6 @@ function doTheSwap(callback){
 
 chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
-        // console.log(request, sender, sendResponse);
         if(request === "do the swap!"){
             doTheSwap(function(numLinks){
                 console.log("sent links" + numLinks);
@@ -35,7 +34,6 @@ chrome.extension.onMessage.addListener(
         }
 
         if(request.header === "newsrc"){
-            // console.log(request, sender, sendResponse);
             console.log("got new sources");
             console.log("chosen_images length" + chosen_images.length);
             console.log("new source length" + request.sources.length);
